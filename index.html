@@ -41,9 +41,7 @@
 
       body {
         margin: 0;
-        /* === RWD 修正開始 === */
-        overflow-x: hidden; /* 強制禁止水平捲動 */
-        /* === RWD 修正結束 === */
+        overflow-x: hidden; /* 強制禁止水平捲動 (第一道防線) */
         font-family: system-ui, -apple-system, 'Segoe UI', Roboto,
           'Helvetica Neue', Arial, sans-serif;
         background-color: var(--color-bg-main);
@@ -111,24 +109,32 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        flex-wrap: wrap;
+        /* 移除 flex-wrap: wrap; 讓 Logo/Menu 永遠保持一行 */
       }
 
       .brand-logo {
         font-size: 1.2rem;
         font-weight: bold;
         color: var(--color-text-main);
+        /* 手機上 Logo 優先，但可以略為縮小 */
+        flex-shrink: 0;
       }
 
+      /* 修正：在手機上導覽連結必須能收縮 */
       .nav-menu {
         display: flex;
-        gap: 15px;
+        gap: 15px; /* 增加連結間距 */
+        flex-wrap: wrap; /* 讓導覽連結自己換行 */
+        justify-content: flex-end;
+        margin-left: 10px; /* 與 Logo 間隔 */
       }
 
       .nav-link {
-        font-size: 0.9rem;
+        font-size: 0.8rem; /* 手機上字體縮小 */
         color: var(--color-text-muted);
         padding: 5px 0;
+        /* 確保連結本身不會被強行撐大 */
+        white-space: nowrap;
       }
 
       .nav-link:hover {
@@ -241,6 +247,18 @@
       @media (min-width: 768px) {
         .section-title {
           font-size: 2rem;
+        }
+
+        /* 恢復導覽列在大螢幕的樣式和字體大小 */
+        .nav-menu {
+          gap: 25px; /* 連結間距放大 */
+          flex-wrap: nowrap; /* 確保不換行 */
+        }
+        .nav-link {
+          font-size: 0.9rem; /* 恢復正常字體大小 */
+        }
+        .brand-logo {
+          font-size: 1.2rem;
         }
 
         /* Hero */
